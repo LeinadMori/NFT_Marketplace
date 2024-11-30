@@ -35,3 +35,22 @@
     (map-set nft-royalties { nft-id: nft-id } { royalty-percentage: royalty-percentage })
     (ok true)
   )
+)
+;; List an NFT for sale (implementation)
+(define-public (list-nft (nft-id int) (price uint))
+  (begin
+    ;; Validate price
+    (asserts! (> price u0) (err "Price must be greater than 0"))
+    ;; Verify ownership
+    (let 
+      ((owner (unwrap! (map-get? nft-owners { nft-id: nft-id }) (err "Owner not found"))))
+      (if (is-eq tx-sender (get owner owner))
+        (begin
+          (map-set nft-prices { nft-id: nft-id } { price: price })
+          (ok true)
+        )
+        (err "You are not the owner of this NFT")
+      )
+    )
+  )
+)
