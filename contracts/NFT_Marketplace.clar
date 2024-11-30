@@ -54,3 +54,21 @@
     )
   )
 )
+;; DeFi staking functionality (implementation)
+(define-public (unstake-tokens (amount uint))
+  (begin
+    ;; Validate amount
+    (asserts! (> amount u0) (err "Amount must be greater than 0"))
+    ;; Check user balance
+    (let 
+      ((current-balance (get balance (default-to { balance: u0 } (map-get? user-balances { user: tx-sender })))))
+      (if (>= current-balance amount)
+        (begin
+          (map-set user-balances { user: tx-sender } { balance: (- current-balance amount) })
+          (ok true)
+        )
+        (err "Insufficient balance to unstake")
+      )
+    )
+  )
+)
