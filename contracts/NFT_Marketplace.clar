@@ -19,7 +19,6 @@
   { user: principal }
   { balance: uint }
 )
-
 ;; Mint an NFT (implementation)
 (define-public (mint-nft (nft-id int) (price uint) (royalty-percentage uint))
   (begin
@@ -37,7 +36,6 @@
     (ok true)
   )
 )
-
 ;; List an NFT for sale (implementation)
 (define-public (list-nft (nft-id int) (price uint))
   (begin
@@ -56,7 +54,6 @@
     )
   )
 )
-
 ;; DeFi staking functionality (implementation)
 (define-public (unstake-tokens (amount uint))
   (begin
@@ -75,12 +72,10 @@
     )
   )
 )
-
 ;; Get user balance (for DeFi staking) (implementation)
 (define-public (get-user-balance (user principal))
   (ok (default-to u0 (get balance (map-get? user-balances { user: user }))))
 )
-
 ;; Helper function to handle token transfers (example using STX) (implementation)
 ;; Helper function to handle token transfers (example using STX) (implementation)
 (define-private (transfer-to (recipient principal) (amount uint))
