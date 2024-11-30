@@ -72,3 +72,22 @@
     )
   )
 )
+;; Get user balance (for DeFi staking) (implementation)
+(define-public (get-user-balance (user principal))
+  (ok (default-to u0 (get balance (map-get? user-balances { user: user }))))
+)
+;; Helper function to handle token transfers (example using STX) (implementation)
+;; Helper function to handle token transfers (example using STX) (implementation)
+(define-private (transfer-to (recipient principal) (amount uint))
+  (begin
+    ;; Validate recipient and amount
+    (asserts! (> amount u0) (err false)) ;; Return consistent error type
+    ;; Perform transfer and handle response
+    (let ((transfer-result (stx-transfer? amount tx-sender recipient)))
+      (if (is-ok transfer-result)
+        (ok true) ;; Return a consistent success response
+        (err false) ;; Return a consistent failure response
+      )
+    )
+  )
+)
